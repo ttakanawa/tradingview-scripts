@@ -1,0 +1,25 @@
+//@version=4
+study(title="BB SMA", shorttitle=" BB SMA ", overlay=true)
+
+// BB
+
+//@version=4
+BBlength = input(20, minval=1)
+BBsrc = input(close, title="BB Source")
+BBmult = input(2.0, minval=0.001, maxval=50, title="StdDev")
+BBbasis = sma(BBsrc, BBlength)
+BBdev = BBmult * stdev(BBsrc, BBlength)
+BBupper = BBbasis + BBdev
+BBlower = BBbasis - BBdev
+BBoffset = input(0, "Offset", type = input.integer, minval = -500, maxval = 500)
+plot(BBbasis, "Basis", color=#872323, offset = BBoffset)
+BBp1 = plot(BBupper, "Upper", color=color.teal, offset = BBoffset)
+BBp2 = plot(BBlower, "Lower", color=color.teal, offset = BBoffset)
+fill(BBp1, BBp2, title = "Background", color=#198787, transp=95)
+
+// SMA 100
+SMA100len = input(100, minval=1, title="Length")
+SMA100src = input(close, title="SMA Source")
+SMA100offset = input(title="Offset", type=input.integer, defval=0, minval=-500, maxval=500)
+SMA100out = sma(SMA100src, SMA100len)
+plot(SMA100out, color=color.blue, title="MA", offset=SMA100offset)

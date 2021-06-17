@@ -1,0 +1,26 @@
+//@version=4
+study(title=" STOCH RSI", shorttitle="STOCH RSI")
+
+//STOCH
+length = input(14, minval=1, title="STOCH - K")
+smoothK = input(3, minval=1, title="STOCH - D")
+smoothD = input(3, minval=1, title="STOCH - Smooth")
+k = sma(stoch(close, high, low, length), smoothK)
+d = sma(k, smoothD)
+plot(k+100, color=#2196f3, title="STOCH - K")
+plot(d+100, color=color.orange, title="STOCH - D")
+band180 = hline(180, title="STOCH - Banda superior")
+band120 = hline(120, title="STOCH - Banda inferior")
+band100 = hline(100,  color=color.black, editable=false, linestyle=hline.style_solid)
+fill(band180, band120, color=color.purple, transp=75, title="STOCH - Fondo")
+
+//RSI
+len = input(14, minval=1, title="RSI - Longitud")
+up = rma(max(change(close), 0), len)
+down = rma(-min(change(close), 0), len)
+rsi = down == 0 ? 100 : up == 0 ? 0 : 100 - (100 / (1 + up / down))
+plot(rsi, color=color.yellow, title="RSI")
+band70 = hline(70, title="RSI - Banda superior")
+band30 = hline(30, title="RSI - Banda inferior")
+band0 = hline(0,  color=color.black, editable=false, linestyle=hline.style_solid)
+fill(band70, band30, color=color.purple, transp=75, title="RSI - Fondo")
